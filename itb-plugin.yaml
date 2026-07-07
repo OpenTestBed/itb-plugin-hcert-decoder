@@ -1,0 +1,22 @@
+apiVersion: itb-plugins/v1
+name: hcert-decoder
+version: 0.2.0
+description: Decodes QR images, HC1 strings, CWT payloads; resolves SHLinks (PIN flow)
+homepage: https://github.com/OpenTestBed/itb-plugin-hcert-decoder
+license: Apache-2.0
+maintainers: [jose.a.teixeira@gmail.com]
+runtime:
+  compose: compose.plugin.yml
+  services:
+    hcert-decoder: { image: ghcr.io/opentestbed/hcert-decoder:0.2.0, port: 8080, healthcheck: /itb/hcert/getModuleDefinition }
+endpoints:
+  hcertDecoder: http://hcert-decoder:8080/itb/hcert
+provides:
+  - { capability: hcert-decode, uri: https://opentestbed.github.io/itb-plugins/capabilities/hcert-decode, version: 1.0.0, service: hcert-decoder, entrypoint: /itb/hcert }
+requires: []
+starterSuite: { path: suite/, specification: plugin-smoke }
+# Language extension (dialect): canonical copy; workbench copy is generated
+# by itb-cli/src/sync-dialects.mjs.
+dialect:
+  path: dialect/
+  namespace: hcert
