@@ -8,9 +8,12 @@ maintainers: [jose.a.teixeira@gmail.com]
 runtime:
   compose: compose.plugin.yml
   services:
-    hcert-decoder: { image: ghcr.io/opentestbed/hcert-decoder:0.2.0, port: 8080, healthcheck: /itb/hcert/getModuleDefinition }
+    # Service/DNS name is hcert-validator (legacy): existing suites' Background
+    # declares "HCertDecoder is infrastructure at http://hcert-validator:8080".
+    # Rename to hcert-decoder only together with a suite recompile + $DOMAIN{} indirection.
+    hcert-validator: { image: "(built from source — see compose.plugin.yml)", port: 8080, healthcheck: /actuator/health }
 endpoints:
-  hcertDecoder: http://hcert-decoder:8080/itb/hcert
+  hcertDecoder: http://hcert-validator:8080
 provides:
   - { capability: hcert-decode, uri: https://opentestbed.github.io/itb-plugins/capabilities/hcert-decode, version: 1.0.0, service: hcert-decoder, entrypoint: /itb/hcert }
 requires: []

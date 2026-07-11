@@ -1,0 +1,25 @@
+# Fragment rules: no host ports (use `itb plugins expose` for debugging),
+# no container_name, healthcheck required, env-only config.
+#
+# Current distribution mode: BUILD from the gdhcn-helper source (the
+# ghcr.io/opentestbed/hcert-decoder image is not published yet — plugin CI will
+# replace this build: block with an image: pin).
+# The build context defaults to a WHO-ITB checkout two levels up from this file
+# (E:\work layout); override with GDHCN_HELPER_SRC for other layouts.
+services:
+  hcert-validator:
+    build:
+      context: ${GDHCN_HELPER_SRC:-../../WHO-ITB/gdhcn-helper}
+      dockerfile: Dockerfile
+    # Always rebuild on `up` (cached = seconds) so a stale image is never
+    # silently reused when someone forgets --build.
+    pull_policy: build
+    restart: unless-stopped
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - PYTHONUNBUFFERED=1
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
