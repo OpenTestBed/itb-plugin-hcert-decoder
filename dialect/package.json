@@ -1,0 +1,35 @@
+{
+  "name": "@opentestbed/dialect-hcert-decoder",
+  "version": "2.0.0",
+  "description": "Health-certificate dialect for the OTB Gherkin language: QR scanning, HC1/CWT decoding, COSE signature verification and SMART Health Link retrieval.",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/OpenTestBed/itb-plugin-hcert-decoder",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpenTestBed/itb-plugin-hcert-decoder.git",
+    "directory": "dialect"
+  },
+  "keywords": [
+    "otb-dialect",
+    "gherkin",
+    "itb",
+    "hcert",
+    "qr",
+    "cose",
+    "smart-health-links"
+  ],
+  "files": [
+    "component.yml",
+    "steps.yml",
+    "steps-v1.yml"
+  ],
+  "otbDialect": {
+    "id": "hcert-decoder"
+  },
+  "peerDependencies": {
+    "@opentestbed/otb-gherkin": ">=0.3.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
